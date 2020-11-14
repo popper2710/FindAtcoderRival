@@ -19,12 +19,15 @@ class Fetcher:
             self.is_login = False
 
     def contest_standings(self, contest_name: str):
-        if not self.is_login:
-            sys.stderr.write("[ERROR] please login to use")
-            sys.exit(1)
         rank_url = f"{self.atcoder_url}/contests/{contest_name}/standings/json"
         headers = {"Content-Type": "application/json"}
         res = requests.get(rank_url, headers=headers, cookies=self.__load_cookies())
+        return res.json()
+
+    def user_history(self, username: str):
+        history_url = f"{self.atcoder_url}/users/{username}/history/json"
+        headers = {"Content-Type": "application/json"}
+        res = requests.get(history_url, headers=headers)
         return res.json()
 
     def login(self, username: str, password: str):
