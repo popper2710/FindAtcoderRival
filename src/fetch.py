@@ -5,11 +5,13 @@ import pickle
 import requests
 from bs4 import BeautifulSoup
 
+from src import config
+
 
 class Fetcher:
     def __init__(self):
         self.atcoder_url = "https://atcoder.jp"
-        self.config_path = "../data/config/"
+        self.config_path = config.PROJECT_ROOT + "/data/config/"
         self.session_filename = "session.pkl"
         self.is_login = True
         if not self.__check_session():
