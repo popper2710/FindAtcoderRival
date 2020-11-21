@@ -1,5 +1,4 @@
 import os
-import sys
 import pickle
 
 import requests
@@ -45,15 +44,6 @@ class Fetcher:
         self.__save_cookies(cookies)
         return True
 
-    def __check_session(self):
-        try:
-            settings_url = f"{self.atcoder_url}/settings"
-            r = requests.get(settings_url, cookies=self.__load_cookies())
-            return r.status_code == 200
-
-        except Exception:
-            return False
-
     def logout(self):
         if not self.is_login:
             return False
@@ -74,6 +64,15 @@ class Fetcher:
             os.mkdir(self.config_path)
         with open(self.config_path + self.session_filename, "wb") as f:
             pickle.dump(cookies, f)
+
+    def __check_session(self):
+        try:
+            settings_url = f"{self.atcoder_url}/settings"
+            r = requests.get(settings_url, cookies=self.__load_cookies())
+            return r.status_code == 200
+
+        except Exception:
+            return False
 
     @staticmethod
     def __extract_csrf_token(content):
