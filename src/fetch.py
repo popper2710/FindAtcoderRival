@@ -8,20 +8,25 @@ from src import config
 
 
 class Fetcher:
-    def __init__(self):
+    def __init__(self, username="", password=""):
         self.atcoder_url = "https://atcoder.jp"
         self.config_path = config.PROJECT_ROOT + "/data/config/"
         self.session_filename = "session.pkl"
-        self.is_login = True
-        if not self.__check_session():
+        self.is_login = False
+        if self.__check_session():
+            self.is_login = True
+        else:
             self.logout()
-            self.is_login = False
+            if self.login(username, password):
+                self.is_login = True
 
     def contest_standings(self, contest_name: str):
         rank_url = f"{self.atcoder_url}/contests/{contest_name}/standings/json"
         headers = {"Content-Type": "application/json"}
         res = requests.get(rank_url, headers=headers, cookies=self.__load_cookies())
-        return res.json()
+        res_dict = res.json()
+        res_dict["ContestName"] = contest_name
+        return res_dict
 
     def user_history(self, username: str):
         history_url = f"{self.atcoder_url}/users/{username}/history/json"
@@ -30,7 +35,7 @@ class Fetcher:
         return res.json()
 
     def login(self, username: str, password: str):
-        if not self.is_login:
+        if self.is_login:
             return False
 
         login_url = f"{self.atcoder_url}/login"
@@ -52,7 +57,9 @@ class Fetcher:
         r = client.get(self.atcoder_url)
         params = {"csrf_token": self.__extract_csrf_token(r.content)}
         client.post(logout_path, params=params)
-        os.remove(self.config_path + self.session_filename)
+        if os.path.exists(self.config_path + self.session_filename):
+            os.remove(self.config_path + self.session_filename)
+        self.is_login = False
         return True
 
     def __load_cookies(self):
@@ -67,7 +74,10 @@ class Fetcher:
 
     def __check_session(self):
         try:
+            if not os.path.exists(self.config_path + self.session_filename):
+                return False
             settings_url = f"{self.atcoder_url}/settings"
+
             r = requests.get(settings_url, cookies=self.__load_cookies())
             return r.status_code == 200
 
