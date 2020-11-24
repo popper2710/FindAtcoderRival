@@ -34,6 +34,12 @@ class Fetcher:
         res = requests.get(history_url, headers=headers)
         return res.json()
 
+    @staticmethod
+    def contests_information():
+        atcoder_problems_url = "https://kenkoooo.com/atcoder/resources/contests.json"
+        res = requests.get(atcoder_problems_url)
+        return res.json()
+
     def login(self, username: str, password: str):
         if self.is_login:
             return False
