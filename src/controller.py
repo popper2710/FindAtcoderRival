@@ -4,7 +4,7 @@ from tinydb import TinyDB, Query
 
 from src import config
 
-TABLE_LIST = ['rivals', 'user']
+TABLE_LIST = ['rivals', 'user', 'contests_info']
 
 
 class Controller:
@@ -23,6 +23,9 @@ class Controller:
     def save_user(self, user):
         self.table["user"].insert(user)
 
+    def save_contests_info(self, contests_info):
+        self.table["contests_info"].insert(contests_info)
+
     def load_rivals(self):
         query = Query()
         res = self.table["rivals"].search(query.rivals.exists())
@@ -31,6 +34,11 @@ class Controller:
     def load_user(self):
         query = Query()
         res = self.table["user"].search(query.user.exists())
+        return res
+
+    def load_contests_info(self):
+        query = Query()
+        res = self.table["contests_info"].search(query.contets_info.exists())
         return res
 
     def clear_db(self):
