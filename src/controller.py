@@ -24,7 +24,7 @@ class Controller:
         self.table["user"].insert(user)
 
     def save_contests_info(self, contests_info):
-        self.table["contests_info"].insert(contests_info)
+        self.table["contests_info"].insert_multiple(contests_info)
 
     def load_rivals(self):
         query = Query()
