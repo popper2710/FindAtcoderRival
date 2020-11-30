@@ -5,14 +5,17 @@ from src import config
 
 class ContestResult:
     contestName = ""
-    performance = -1
+    username = ""
     new_rating = -1
-    end_time = datetime.datetime.now()
+    contest_start_time = -1
+    elapsed_time = -1
+
 
     def to_dict(self):
         return {
             "contestName": self.contestName,
-            "performance": self.performance,
+            "username": self.username,
             "new_rating": self.new_rating,
-            "end_time": self.end_time.strftime(config.DATE_FORMAT)
+            "start_time": self.contest_start_time,
+            "elapsed_time": self.elapsed_time
         }

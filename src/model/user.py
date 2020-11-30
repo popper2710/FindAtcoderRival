@@ -16,6 +16,12 @@ class User:
             "last_updated": self.last_updated.strftime(config.DATE_FORMAT)
         }
 
+    def add_contest_result(self, contest_result):
+        if self.username == contest_result.username:
+            self.contest_results.append(contest_result)
+        else:
+            raise ValueError("Invalid Argument: username is not equal")
+
     def __eq__(self, other):
         return self.username == other.username and self.last_updated == other.last_updated
 
