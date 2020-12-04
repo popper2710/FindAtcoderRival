@@ -15,7 +15,7 @@ class Controller:
         self. db = TinyDB(self.data_path + "db.json")
         self.table = dict()
         for table_name in TABLE_LIST:
-            self.table["table_name"] = self.db.table(table_name)
+            self.table[table_name] = self.db.table(table_name)
 
     def save_rivals(self, rivals):
         self.table["rivals"].insert(rivals)
@@ -38,11 +38,11 @@ class Controller:
 
     def load_contests_info(self):
         query = Query()
-        res = self.table["contests_info"].search(query.contets_info.exists())
+        res = self.table["contests_info"].search(query.id.exists())
         return res
 
-    def clear_db(self):
-        self.db.purge()
+    def clear_table(self, name):
+        self.db.drop_table(name)
 
 
 
