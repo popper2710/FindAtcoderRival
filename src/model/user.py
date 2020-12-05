@@ -22,6 +22,13 @@ class User:
         else:
             raise ValueError("Invalid Argument: username is not equal")
 
+    def update_current_rating(self):
+        latest_contests = sorted(self.contest_results, key=lambda x: x.contest_start_time,reverse=True)
+        for i in latest_contests:
+            if i.new_lating > 0:
+                self.current_rating = i.new_lating
+                break
+
     def __eq__(self, other):
         return self.username == other.username and self.last_updated == other.last_updated
 
