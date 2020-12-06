@@ -32,7 +32,10 @@ class Fetcher:
         history_url = f"{self.atcoder_url}/users/{username}/history/json"
         headers = {"Content-Type": "application/json"}
         res = requests.get(history_url, headers=headers)
-        return res.json()
+        res_dict = res.json()
+        for i in range(len(res_dict)):
+            res_dict[i]["UserScreenName"] = username
+        return res_dict
 
     @staticmethod
     def contests_information():
