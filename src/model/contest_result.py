@@ -10,7 +10,6 @@ class ContestResult:
     contest_start_time = -1
     elapsed_time = -1
 
-
     def to_dict(self):
         return {
             "contestName": self.contestName,
