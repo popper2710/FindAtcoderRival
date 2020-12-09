@@ -25,3 +25,19 @@ class Parser:
         result.elapsed_time = fetch_result["TotalResult"]["Elapsed"]
         return result
 
+    def from_user_history_to_user(self, username, user_history):
+        user = model.User()
+        user.username = username
+        user.last_updated = datetime.now()
+        for h in user_history:
+            result = model.ContestResult()
+            result.contestName = h["ContestScreenName"].split(".")[0]
+            result.new_rating = h["NewRating"]
+            result.username = username
+            result.contest_start_time = self.contests_info[result.contestName]
+            user.add_contest_result(result)
+        user.update_current_rating()
+        return user
+
+
+
