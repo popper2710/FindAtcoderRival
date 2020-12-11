@@ -13,6 +13,8 @@
 
   - pythonを使用。CUIで使用できるようにする。cliはargparseを使用。
   - ライバルのデータはAtcoder Problems Apiを用いる予定。
+  - コンテストデータがAtcoder Problems Apiで取得できないので、公式サイトから取得する
+  - 場合によってはスクレイピング
   - データ保存はとりあえずjson
 
 - 機能別実装
