@@ -8,6 +8,7 @@ class Manager:
         self.fetcher = Fetcher()
         self.controller = Controller()
         self.parser = Parser()
+        self.register_user = self.controller.load_user()
 
     def update_user_info(self, name):
         user_history = self.fetcher.user_history(name)
