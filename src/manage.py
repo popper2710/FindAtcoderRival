@@ -8,12 +8,11 @@ class Manager:
         self.fetcher = Fetcher()
         self.controller = Controller()
         self.parser = Parser()
+        self.register_user = self.controller.load_user()
 
     def update_user_info(self, name):
         user_history = self.fetcher.user_history(name)
-        user = self.parser.from_result_to_user(user_history[0])
-        for result in user_history:
-            user.add_contest_result(result)
+        user = self.parser.from_user_history_to_user(user_history, name)
         if self.controller.load_user():
             self.controller.clear_table("user")
         self.controller.save_user(user)
