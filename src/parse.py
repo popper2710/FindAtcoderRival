@@ -38,6 +38,3 @@ class Parser:
             user.add_contest_result(result)
         user.update_current_rating()
         return user
-
-
-

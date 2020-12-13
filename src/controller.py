@@ -12,7 +12,7 @@ class Controller:
         self.data_path = config.PROJECT_ROOT + "/data/"
         if not os.path.exists(self.data_path):
             os.mkdir(self.data_path)
-        self. db = TinyDB(self.data_path + "db.json")
+        self.db = TinyDB(self.data_path + "db.json")
         self.table = dict()
         for table_name in TABLE_LIST:
             self.table[table_name] = self.db.table(table_name)
@@ -43,9 +43,3 @@ class Controller:
 
     def clear_table(self, name):
         self.db.drop_table(name)
-
-
-
-
-
-
