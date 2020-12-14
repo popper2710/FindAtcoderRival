@@ -16,6 +16,15 @@ class User:
             "last_updated": self.last_updated.strftime(config.DATE_FORMAT)
         }
 
+    @staticmethod
+    def from_dict(user_dict):
+        user = User()
+        user.username = user_dict["username"]
+        user.current_rating = user_dict["current_rating"]
+        user.contest_results = user_dict["contest_results"]
+        user.last_updated = user_dict["last_updated"]
+        return user
+
     def add_contest_result(self, contest_result):
         if self.username == contest_result.username:
             self.contest_results.append(contest_result)
