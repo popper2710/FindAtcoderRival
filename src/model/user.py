@@ -16,6 +16,15 @@ class User:
             "last_updated": self.last_updated.strftime(config.DATE_FORMAT)
         }
 
+    @staticmethod
+    def from_dict(user_dict):
+        user = User()
+        user.username = user_dict["username"]
+        user.current_rating = user_dict["current_rating"]
+        user.contest_results = user_dict["contest_results"]
+        user.last_updated = user_dict["last_updated"]
+        return user
+
     def add_contest_result(self, contest_result):
         if self.username == contest_result.username:
             self.contest_results.append(contest_result)
@@ -23,7 +32,7 @@ class User:
             raise ValueError("Invalid Argument: username is not equal")
 
     def update_current_rating(self):
-        latest_contests = sorted(self.contest_results, key=lambda x: x.contest_start_time,reverse=True)
+        latest_contests = sorted(self.contest_results, key=lambda x: x.contest_start_time, reverse=True)
         for i in latest_contests:
             if i.new_lating > 0:
                 self.current_rating = i.new_lating
@@ -34,5 +43,3 @@ class User:
 
     def __ne__(self, other):
         return not self.__eq__(other)
-
-

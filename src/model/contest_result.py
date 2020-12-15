@@ -15,6 +15,16 @@ class ContestResult:
             "contestName": self.contestName,
             "username": self.username,
             "new_rating": self.new_rating,
-            "start_time": self.contest_start_time,
+            "contest_start_time": self.contest_start_time,
             "elapsed_time": self.elapsed_time
         }
+
+    @staticmethod
+    def from_dict(result_dict):
+        result = ContestResult()
+        result.contestName = result_dict["contestName"]
+        result.username = result_dict["username"]
+        result.new_rating = result_dict["new_rating"]
+        result.contest_start_time = result_dict["contest_start_time"]
+        result.elapsed_time = result_dict["elapsed_time"]
+        return result
