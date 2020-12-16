@@ -10,6 +10,19 @@ class Manager:
         self.parser = Parser()
         self.register_user = self.controller.load_user()
 
+    def find_rivals(self):
+        if self.register_user is None:
+            raise Exception("[ERROR] User is not registered")
+        candidates = list()
+        for contest_result in self.register_user.contest_results:
+            contest_standing = self.fetcher.contest_standings(contest_result.contestName)
+            for fetch_result in contest_standing:
+                result = self.parser.from_result_to_result(fetch_result)
+                if self._eval_rival(result):
+                    candidates.append(self.parser.from_result_to_user(fetch_result))
+
+        self.controller.save_rivals(candidates)
+
     def update_user_info(self, name):
         user_history = self.fetcher.user_history(name)
         user = self.parser.from_user_history_to_user(user_history, name)
@@ -22,3 +35,6 @@ class Manager:
             self.controller.clear_table("contests_info")
         contests_info = self.fetcher.contests_information()
         self.controller.save_contests_info(contests_info)
+
+    def _eval_rival(self, result):
+        pass
