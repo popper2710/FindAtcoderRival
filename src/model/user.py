@@ -1,5 +1,6 @@
 import datetime
 from src import config
+from src.model import ContestResult
 
 
 class User:
@@ -21,7 +22,8 @@ class User:
         user = User()
         user.username = user_dict["username"]
         user.current_rating = user_dict["current_rating"]
-        user.contest_results = user_dict["contest_results"]
+        user.contest_results = [ContestResult.from_dict(contest_result)
+                                for contest_result in user_dict["contest_results"]]
         user.last_updated = user_dict["last_updated"]
         return user
 
