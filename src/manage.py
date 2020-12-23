@@ -2,6 +2,8 @@ from src.fetch import Fetcher
 from src.controller import Controller
 from src.parse import Parser
 
+from collections import defaultdict
+
 
 class Manager:
     def __init__(self):
@@ -13,15 +15,19 @@ class Manager:
     def find_rivals(self):
         if self.register_user is None:
             raise Exception("[ERROR] User is not registered")
-        candidates = list()
+        user_results = defaultdict(list)
         for contest_result in self.register_user.contest_results:
             contest_standing = self.fetcher.contest_standings(contest_result.contestName)
             for fetch_result in contest_standing:
                 result = self.parser.from_result_to_result(fetch_result)
-                if self._eval_rival(result):
-                    candidates.append(self.parser.from_result_to_user(fetch_result))
+                user_results[result.username].append(result)
 
-        self.controller.save_rivals(candidates)
+        for (_, v) in user_results:
+            if self._eval_rival(v):
+                user = self.parser.from_result_to_user(v[0])
+                for result in v:
+                    user.add_contest_result(result)
+                self.controller.save_rivals(user)
 
     def update_user_info(self, name):
         user_history = self.fetcher.user_history(name)
