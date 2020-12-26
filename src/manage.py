@@ -12,7 +12,7 @@ class Manager:
         self.parser = Parser()
         self.register_user = self.controller.load_user()
 
-    def find_rivals(self):
+    def find_rivals(self, rival_cond):
         if self.register_user is None:
             raise Exception("[ERROR] User is not registered")
         user_results = defaultdict(list)
@@ -23,7 +23,7 @@ class Manager:
                 user_results[result.username].append(result)
 
         for (_, v) in user_results:
-            if self._eval_rival(v):
+            if self._eval_rival(v, rival_cond):
                 user = self.parser.from_result_to_user(v[0])
                 for result in v:
                     user.add_contest_result(result)
