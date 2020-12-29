@@ -5,6 +5,3 @@ class RivalCond:
     lower_ranking_limit = 200
     required_pt_count = 5
     recent_contest_count = 10
-
-
-
