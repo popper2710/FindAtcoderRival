@@ -1,6 +1,7 @@
 from src.fetch import Fetcher
 from src.controller import Controller
 from src.parse import Parser
+from src.rival_cond import RivalCond
 
 from collections import defaultdict
 
@@ -11,8 +12,9 @@ class Manager:
         self.controller = Controller()
         self.parser = Parser()
         self.register_user = self.controller.load_user()
+        self.rival_cond = RivalCond()
 
-    def find_rivals(self, rival_cond):
+    def find_rivals(self):
         if self.register_user is None:
             raise Exception("[ERROR] User is not registered")
         user_results = defaultdict(list)
@@ -23,7 +25,7 @@ class Manager:
                 user_results[result.username].append(result)
 
         for (_, v) in user_results:
-            if self._eval_rival(v, rival_cond):
+            if self._eval_rival(v):
                 user = self.parser.from_result_to_user(v[0])
                 for result in v:
                     user.add_contest_result(result)
@@ -41,6 +43,9 @@ class Manager:
             self.controller.clear_table("contests_info")
         contests_info = self.fetcher.contests_information()
         self.controller.save_contests_info(contests_info)
+
+    def set_rival_cond(self, rival_cond):
+        self.rival_cond = rival_cond
 
     def _eval_rival(self, result):
         pass
