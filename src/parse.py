@@ -21,6 +21,7 @@ class Parser:
         result.contestName = first_task.rsplit("_", 1)[0]
         result.username = fetch_result['UserScreenName']
         result.new_rating = fetch_result["Rating"]
+        result.ranking = fetch_result["Rank"]
         result.contest_start_time = self.contests_info[result.contestName]
         result.elapsed_time = fetch_result["TotalResult"]["Elapsed"]
         return result
