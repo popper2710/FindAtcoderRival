@@ -47,5 +47,12 @@ class Manager:
     def set_rival_cond(self, rival_cond):
         self.rival_cond = rival_cond
 
-    def _eval_rival(self, result):
-        pass
+    def _eval_rival(self, results):
+        results.sort(key=lambda result: result.contest_start_time, reverse=True)
+        rival_rate = results[0].new_rating
+        if rival_rate < self.register_user.current_rating - self.rival_cond.lower_rate_limit \
+                or rival_rate > self.register_user.current_rating + self.rival_cond.upper_rate_limit:
+            return False
+
+        return True
+
