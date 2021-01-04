@@ -54,5 +54,10 @@ class Manager:
                 or rival_rate > self.register_user.current_rating + self.rival_cond.upper_rate_limit:
             return False
 
+        for rival_result in results:
+            for user_result in self.register_user.contest_results:
+                if rival_result.contestName == user_result.contestName \
+                    and not (- self.rival_cond.lower_rate_limit <= rival_result.ranking - user_result.ranking \
+                             <= self.rival_cond.upper_rate_limit):
+                    return False
         return True
-
