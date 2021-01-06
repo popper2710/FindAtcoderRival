@@ -13,6 +13,10 @@ class Manager:
         self.parser = Parser()
         self.register_user = self.controller.load_user()
         self.rival_cond = RivalCond()
+        self.sorted_user_contests = sorted(self.register_user.contest_results,
+                                           key=lambda result: result.contest_start_time, reverse=True)
+        self.contest_information = sorted(self.fetcher.contests_information(),
+                                          key=lambda info: info["start_epoch_second"], reverse=True)
 
     def find_rivals(self):
         if self.register_user is None:
@@ -50,6 +54,12 @@ class Manager:
     def _eval_rival(self, results):
         results.sort(key=lambda result: result.contest_start_time, reverse=True)
         rival_rate = results[0].new_rating
+        results = list(
+            filter(lambda result: result.contestName in self.contest_information[:self.rival_cond.recent_contest_count],
+                   results))
+        if len(results) < self.rival_cond.required_pt_count:
+            return False
+
         if rival_rate < self.register_user.current_rating - self.rival_cond.lower_rate_limit \
                 or rival_rate > self.register_user.current_rating + self.rival_cond.upper_rate_limit:
             return False
@@ -57,7 +67,8 @@ class Manager:
         for rival_result in results:
             for user_result in self.register_user.contest_results:
                 if rival_result.contestName == user_result.contestName \
-                    and not (- self.rival_cond.lower_rate_limit <= rival_result.ranking - user_result.ranking \
-                             <= self.rival_cond.upper_rate_limit):
+                        and not (- self.rival_cond.lower_rate_limit <= rival_result.ranking - user_result.ranking
+                                 <= self.rival_cond.upper_rate_limit):
                     return False
+
         return True
