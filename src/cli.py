@@ -1,5 +1,6 @@
 import argparse
 
+
 def main():
     # [("command", "help text", "argument count")...]
     sub_commands = [("login", "login to atcoder", ),
@@ -11,4 +12,6 @@ def main():
     parser = argparse.ArgumentParser()
     for command in sub_commands:
         parser.add_argument(command[0], help=command[1])
+
+
 
