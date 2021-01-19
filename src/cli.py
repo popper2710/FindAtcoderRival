@@ -1,8 +1,20 @@
 import argparse
 
+from src.manage import Manager
+
+LOGIN_COUNT = 3
+
 
 def login(args):
-    print(args)
+    manager = Manager()
+    for _ in range(LOGIN_COUNT):
+        if manager.fetcher.is_login:
+            break
+        username = input("Please input your username and password in Atcoder\nusername:")
+        password = input("password")
+        manager.fetcher.login(username, password)
+        if manager.fetcher.is_login:
+            print("Username or password is incorrect")
 
 
 def update(args):
