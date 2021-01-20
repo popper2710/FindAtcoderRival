@@ -8,7 +8,7 @@ from src import config
 
 
 class Fetcher:
-    def __init__(self, username="", password=""):
+    def __init__(self):
         self.atcoder_url = "https://atcoder.jp"
         self.config_path = config.PROJECT_ROOT + "/data/config/"
         self.session_filename = "session.pkl"
@@ -17,8 +17,6 @@ class Fetcher:
             self.is_login = True
         else:
             self.logout()
-            if self.login(username, password):
-                self.is_login = True
 
     def contest_standings(self, contest_name: str):
         rank_url = f"{self.atcoder_url}/contests/{contest_name}/standings/json"
@@ -53,7 +51,9 @@ class Fetcher:
         params = {"username": username,
                   "password": password,
                   "csrf_token": self.__extract_csrf_token(r.content)}
-        client.post(login_url, params=params)
+        r = client.post(login_url, params=params)
+        if r.url == login_url:
+            return False
         cookies = client.cookies
         self.__save_cookies(cookies)
         return True
