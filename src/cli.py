@@ -28,7 +28,8 @@ def status(args):
 
 
 def clear_session(args):
-    print(args)
+    manager = Manager()
+    manager.fetcher.logout()
 
 
 def main():
