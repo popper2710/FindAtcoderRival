@@ -12,7 +12,7 @@ class Manager:
         self.controller = Controller()
         self.parser = Parser()
         self.register_user = self.controller.load_user()
-        self.rival_cond = RivalCond()
+        self.rival_cond = RivalCond.from_dict(self.controller.load_rival_cond())
         self.sorted_user_contests = sorted(self.register_user.contest_results,
                                            key=lambda result: result.contest_start_time, reverse=True)
         self.contest_information = sorted(self.fetcher.contests_information(),
@@ -49,6 +49,7 @@ class Manager:
         self.controller.save_contests_info(contests_info)
 
     def set_rival_cond(self, rival_cond):
+        self.controller.save_rival_cond(rival_cond.to_dict())
         self.rival_cond = rival_cond
 
     def _eval_rival(self, results):
