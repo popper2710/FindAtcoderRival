@@ -17,7 +17,7 @@ class RivalCond:
         }
 
     @staticmethod
-    def from_dict( rival_cond_dict):
+    def from_dict(rival_cond_dict):
         rival_cond = RivalCond()
         rival_cond.upper_rate_limit = rival_cond_dict["upper_rate_limit"]
         rival_cond.lower_rate_limit = rival_cond_dict["lower_rate_limit"]
