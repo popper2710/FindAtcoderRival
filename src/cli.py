@@ -1,6 +1,7 @@
 import argparse
 
 from src.manage import Manager
+from src.rival_cond import RivalCond
 
 
 def login(args):
@@ -32,6 +33,24 @@ def clear_session(args):
     manager.fetcher.logout()
 
 
+def cond(args):
+    rival_cond = RivalCond()
+    if not args.reset:
+        if args.upper_rate:
+            rival_cond.upper_rate_limit = args.upper_rate
+        if args.lower_rate:
+            rival_cond.upper_rate_limit = args.lower_rate
+        if args.upper_rank:
+            rival_cond.upper_rate_limit = args.upper_rank
+        if args.lower_rank:
+            rival_cond.upper_rate_limit = args.lower_rank
+        if args.required_participatin:
+            rival_cond.upper_rate_limit = args.required_participatin
+        if args.recent_contest:
+            rival_cond.upper_rate_limit = args.recent_contest
+    Manager().set_rival_cond(rival_cond)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Find your rival in Atcoder")
     subparsers = parser.add_subparsers()
@@ -49,6 +68,16 @@ def main():
 
     parser_clear_session = subparsers.add_parser("clear_session", help="clear session data")
     parser_clear_session.set_defaults(handler=clear_session)
+
+    parser_cond = subparsers.add_parser("cond", help="set condition of rival")
+    parser_cond.add_argument("-ur", "--upper_rate", help="set upper rate limit")
+    parser_cond.add_argument("-lr", "--lower_rate", help="set lower rate limit")
+    parser_cond.add_argument("-uR", "--upper_rank", help="set upper ranking limit")
+    parser_cond.add_argument("-lR", "--lower_rank", help="set upper ranking limit")
+    parser_cond.add_argument("-rp", "--required_participation", help="set required participation count")
+    parser_cond.add_argument("-rc", "--recent_contest", help="set recent contest count")
+    parser_cond.add_argument("-d", "--reset", help="return to default value")
+    parser_cond.set_defaults(handler=cond)
 
     args = parser.parse_args()
     if hasattr(args, "handler"):
