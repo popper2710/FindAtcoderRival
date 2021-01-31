@@ -52,6 +52,9 @@ class Manager:
         self.controller.save_rival_cond(rival_cond.to_dict())
         self.rival_cond = rival_cond
 
+    def is_register(self):
+        return self.register_user is not None
+
     def _eval_rival(self, results):
         results.sort(key=lambda result: result.contest_start_time, reverse=True)
         rival_rate = results[0].new_rating

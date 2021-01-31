@@ -21,7 +21,11 @@ def login(args):
 
 
 def update(args):
-    print(args)
+    manager = Manager()
+    if not manager.is_register():
+        print("Please login before. \n'far login'")
+    manager.update_user_info(manager.register_user.username)
+    manager.update_contests_info()
 
 
 def status(args):
