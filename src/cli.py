@@ -4,6 +4,15 @@ from src.manage import Manager
 from src.rival_cond import RivalCond
 
 
+def check_register(func):
+    def wrapper(*args, **kwargs):
+        manager = Manager()
+        if not manager.is_register():
+            print("Please login before. \n'far login'")
+        else:
+            return func(*args, **kwargs)
+
+
 def login(args):
     manager = Manager()
     if args.username and args.password:
@@ -20,14 +29,19 @@ def login(args):
             print("Username or password is incorrect")
 
 
-def update(args):
+@check_register
+def find(args):
     manager = Manager()
-    if not manager.is_register():
-        print("Please login before. \n'far login'")
     manager.update_user_info(manager.register_user.username)
     manager.update_contests_info()
 
 
+@check_register
+def update(args):
+    print(args)
+
+
+@check_register
 def status(args):
     print(args)
 
@@ -64,7 +78,10 @@ def main():
     parser_login.add_argument("-t", "--try_count", help="set try count (default: 3)", default=3)
     parser_login.set_defaults(handler=login)
 
-    parser_update = subparsers.add_parser("update", help="find and update rivals")
+    parser_update = subparsers.add_parser("find", help="find rivals")
+    parser_update.set_defaults(handler=find)
+
+    parser_update = subparsers.add_parser("update", help="update rivals")
     parser_update.set_defaults(handler=update)
 
     parser_status = subparsers.add_parser("status", help="prints comparison with rivals")
