@@ -12,6 +12,8 @@ class Manager:
         self.controller = Controller()
         self.parser = Parser()
         self.register_user = self.controller.load_user()
+        if self.is_register():
+            self.update_user_info(self.register_user.username)
         self.rival_cond = RivalCond.from_dict(self.controller.load_rival_cond())
         self.sorted_user_contests = sorted(self.register_user.contest_results,
                                            key=lambda result: result.contest_start_time, reverse=True)
