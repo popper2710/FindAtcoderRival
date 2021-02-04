@@ -2,8 +2,10 @@ from src.fetch import Fetcher
 from src.controller import Controller
 from src.parse import Parser
 from src.rival_cond import RivalCond
+from src import config
 
 from collections import defaultdict
+import datetime
 
 
 class Manager:
@@ -12,6 +14,8 @@ class Manager:
         self.controller = Controller()
         self.parser = Parser()
         self.register_user = self.controller.load_user()
+        if datetime.datetime.now() > self.is_register().last_updated + config.UPDATE_INTERVAL:
+            self.update_user_info(self.register_user.username)
         self.rival_cond = RivalCond.from_dict(self.controller.load_rival_cond())
         self.sorted_user_contests = sorted(self.register_user.contest_results,
                                            key=lambda result: result.contest_start_time, reverse=True)
