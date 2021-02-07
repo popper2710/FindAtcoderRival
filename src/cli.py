@@ -23,7 +23,7 @@ def login(args):
         if manager.fetcher.is_login:
             break
         username = input("Please input your username and password in Atcoder\nusername:")
-        password = input("password")
+        password = input("password:")
         manager.fetcher.login(username, password)
         if manager.fetcher.is_login:
             print("Username or password is incorrect")

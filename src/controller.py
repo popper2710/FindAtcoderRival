@@ -45,7 +45,6 @@ class Controller:
         return res
 
     def load_rival_cond(self):
-        query = Query()
         res = self.table["rival_cond"].all()[0]
         return res
 
