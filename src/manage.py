@@ -2,6 +2,7 @@ from src.fetch import Fetcher
 from src.controller import Controller
 from src.parse import Parser
 from src.rival_cond import RivalCond
+from src.model import *
 from src import config
 
 from collections import defaultdict
@@ -45,6 +46,18 @@ class Manager:
         if self.controller.load_user():
             self.controller.clear_table("user")
         self.controller.save_user(user)
+
+    def update_rivals(self):
+        rivals = [User.from_dict(rival) for rival in self.controller.load_rivals()]
+        for contest in self.register_user.contest_results:
+            contest_standing = self.fetcher.contest_standings(contest.contestName)
+            for contest_result_dict in contest_standing:
+                contest_result = ContestResult.from_dict(contest_result_dict)
+                for rival in rivals:
+                    if contest_result.username == rival.username:
+                        rival.add_contest_result(contest_result)
+                        break
+        self.controller.save_rivals([rival.to_dict() for rival in rivals])
 
     def update_contests_info(self):
         if self.controller.load_contests_info():
