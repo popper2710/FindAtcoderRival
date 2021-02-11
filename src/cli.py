@@ -38,7 +38,9 @@ def find(args):
 
 @check_register
 def update(args):
-    print(args)
+    manager = Manager()
+    manager.update_user_info()
+    manager.update_rivals()
 
 
 @check_register
