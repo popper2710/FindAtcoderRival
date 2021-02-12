@@ -43,6 +43,10 @@ class Manager:
     def update_user_info(self, name):
         user_history = self.fetcher.user_history(name)
         user = self.parser.from_user_history_to_user(user_history, name)
+        for contest in self.register_user.contest_results:
+            contest_standing = self.fetcher.contest_standings(contest.contestName)
+            for contest_result_dict in contest_standing:
+                user.add_contest_result(ContestResult.from_dict(contest_result_dict))
         if self.controller.load_user():
             self.controller.clear_table("user")
         self.controller.save_user(user)
