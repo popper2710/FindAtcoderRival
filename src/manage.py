@@ -46,7 +46,9 @@ class Manager:
         for contest in self.register_user.contest_results:
             contest_standing = self.fetcher.contest_standings(contest.contestName)
             for contest_result_dict in contest_standing:
-                user.add_contest_result(ContestResult.from_dict(contest_result_dict))
+                contest_result = ContestResult.from_dict(contest_result_dict)
+                if contest_result.username == user.username:
+                    user.add_contest_result(contest_result)
         if self.controller.load_user():
             self.controller.clear_table("user")
         self.controller.save_user(user)
