@@ -32,14 +32,14 @@ def login(args):
 @check_register
 def find(args):
     manager = Manager()
-    manager.update_user_info(manager.register_user.username)
+    manager.update_register_user_info()
     manager.update_contests_info()
 
 
 @check_register
 def update(args):
     manager = Manager()
-    manager.update_user_info()
+    manager.update_register_user_info()
     manager.update_rivals()
 
 
