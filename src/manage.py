@@ -16,7 +16,7 @@ class Manager:
         self.parser = Parser()
         self.register_user = self.controller.load_user()
         if datetime.datetime.now() > self.is_register().last_updated + config.UPDATE_INTERVAL:
-            self.update_user_info(self.register_user.username)
+            self.update_register_user_info()
         self.rival_cond = RivalCond.from_dict(self.controller.load_rival_cond())
         self.sorted_user_contests = sorted(self.register_user.contest_results,
                                            key=lambda result: result.contest_start_time, reverse=True)
@@ -40,9 +40,9 @@ class Manager:
                     user.add_contest_result(result)
                 self.controller.save_rivals(user)
 
-    def update_user_info(self, name):
-        user_history = self.fetcher.user_history(name)
-        user = self.parser.from_user_history_to_user(user_history, name)
+    def update_register_user_info(self):
+        user_history = self.fetcher.user_history(self.register_user.username)
+        user = self.parser.from_user_history_to_user(user_history, self.register_user.username)
         for contest in self.register_user.contest_results:
             contest_standing = self.fetcher.contest_standings(contest.contestName)
             for contest_result_dict in contest_standing:
