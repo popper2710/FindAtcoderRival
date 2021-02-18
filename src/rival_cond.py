@@ -5,6 +5,7 @@ class RivalCond:
     lower_ranking_limit = 200
     required_pt_count = 5
     recent_contest_count = 10
+    number_limit = 10
 
     def to_dict(self):
         return {
@@ -13,7 +14,8 @@ class RivalCond:
             "upper_ranking_limit": self.upper_ranking_limit,
             "lower_ranking_limit": self.lower_ranking_limit,
             "required_pt_count": self.required_pt_count,
-            "recent_contest_count": self.recent_contest_count
+            "recent_contest_count": self.recent_contest_count,
+            "number_limit": self.number_limit
         }
 
     @staticmethod
@@ -25,4 +27,5 @@ class RivalCond:
         rival_cond.lower_ranking_limit = rival_cond_dict["lower_ranking_limit"]
         rival_cond.required_pt_count = rival_cond_dict["required_pt_count"]
         rival_cond.recent_contest_count = rival_cond_dict["recent_contest_count"]
+        rival_cond.number_limit = rival_cond_dict["number_limit"]
         return rival_cond

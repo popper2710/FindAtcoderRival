@@ -33,7 +33,7 @@ class Manager:
                 result = self.parser.from_result_to_result(fetch_result)
                 user_results[result.username].append(result)
 
-        for (_, v) in user_results:
+        for (_, v) in user_results[:self.rival_cond.number_limit]:
             if self._eval_rival(v):
                 user = self.parser.from_result_to_user(v[0])
                 for result in v:
