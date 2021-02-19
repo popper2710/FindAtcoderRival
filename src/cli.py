@@ -68,6 +68,8 @@ def cond(args):
             rival_cond.upper_rate_limit = args.required_participatin
         if args.recent_contest:
             rival_cond.upper_rate_limit = args.recent_contest
+        if args.number_limit:
+            rival_cond.number_limit = args.number_limit
     Manager().set_rival_cond(rival_cond)
 
 
@@ -99,6 +101,7 @@ def main():
     parser_cond.add_argument("-lR", "--lower_rank", help="set upper ranking limit")
     parser_cond.add_argument("-rp", "--required_participation", help="set required participation count")
     parser_cond.add_argument("-rc", "--recent_contest", help="set recent contest count")
+    parser_cond.add_argument("-n", "--number_limit", help="set number of rivals")
     parser_cond.add_argument("-d", "--reset", help="return to default value")
     parser_cond.set_defaults(handler=cond)
 
