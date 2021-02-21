@@ -35,10 +35,10 @@ class Manager:
 
         for (_, v) in user_results[:self.rival_cond.number_limit]:
             if self._eval_rival(v):
-                user = self.parser.from_result_to_user(v[0])
+                rival = self.parser.from_result_to_user(v[0])
                 for result in v:
-                    user.add_contest_result(result)
-                self.controller.save_rivals(user)
+                    rival.add_contest_result(result)
+                self.controller.save_rivals(rival)
 
     def update_register_user_info(self):
         user_history = self.fetcher.user_history(self.register_user.username)
