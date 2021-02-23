@@ -51,7 +51,7 @@ class Manager:
                     user.add_contest_result(contest_result)
         if self.controller.load_user():
             self.controller.clear_table("user")
-        self.controller.save_user(user)
+        self.controller.save_user(user.to_dict())
 
     def update_rivals(self):
         rivals = [User.from_dict(rival) for rival in self.controller.load_rivals()]
