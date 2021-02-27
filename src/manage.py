@@ -32,13 +32,14 @@ class Manager:
             for fetch_result in contest_standing:
                 result = self.parser.from_result_to_result(fetch_result)
                 user_results[result.username].append(result)
-
-        for (_, v) in user_results[:self.rival_cond.number_limit]:
+        rivals = []
+        for (_, v) in user_results:
             if self._eval_rival(v):
                 rival = self.parser.from_result_to_user(v[0])
                 for result in v:
                     rival.add_contest_result(result)
-                self.controller.save_rivals(rival)
+                rivals.append(rival.to_dict())
+        self.controller.save_rivals(rivals)
 
     def update_register_user_info(self):
         user_history = self.fetcher.user_history(self.register_user.username)
